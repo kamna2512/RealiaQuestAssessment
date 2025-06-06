@@ -1,4 +1,4 @@
-package com.reliaquest.server.config;
+package com.reliaquest.api.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -23,22 +23,21 @@ public class SecurityConfig {
 
         @Bean
         public UserDetailsService userDetailsService() {
-            return new InMemoryUserDetailsManager(
-                    User.withUsername("user")
-                            .password(passwordEncoder().encode("pass"))
-                            .roles("USER")
-                            .build());
+            return new InMemoryUserDetailsManager(User.withUsername("user")
+                    .password(passwordEncoder().encode("pass"))
+                    .roles("USER")
+                    .build());
         }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**")
+                        .permitAll()
+                        .requestMatchers("/actuator/**")
+                        .permitAll())
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
-
 }

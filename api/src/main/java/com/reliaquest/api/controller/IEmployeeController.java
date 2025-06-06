@@ -1,6 +1,9 @@
 package com.reliaquest.api.controller;
 
 import java.util.List;
+
+import com.reliaquest.api.model.Response;
+import com.reliaquest.server.model.CreateMockEmployeeInput;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IEmployeeController<Entity, Input> {
 
     @GetMapping()
-    ResponseEntity<List<Entity>> getAllEmployees();
+    Response<List<Entity>> getAllEmployees();
 
     @GetMapping("/search/{searchString}")
     ResponseEntity<List<Entity>> getEmployeesByNameSearch(@PathVariable String searchString);
 
     @GetMapping("/{id}")
-    ResponseEntity<Entity> getEmployeeById(@PathVariable String id);
+    ResponseEntity<Response<Entity>> getEmployeeById(@PathVariable String id);
 
     @GetMapping("/highestSalary")
     ResponseEntity<Integer> getHighestSalaryOfEmployees();
@@ -36,7 +39,7 @@ public interface IEmployeeController<Entity, Input> {
     ResponseEntity<List<String>> getTopTenHighestEarningEmployeeNames();
 
     @PostMapping()
-    ResponseEntity<Entity> createEmployee(@RequestBody Input employeeInput);
+    Response<Entity> createEmployee(@RequestBody CreateMockEmployeeInput employeeInput);
 
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteEmployeeById(@PathVariable String id);

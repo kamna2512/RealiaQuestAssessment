@@ -23,7 +23,7 @@ public class MockEmployeeService {
     @Getter
     private final List<MockEmployee> mockEmployees;
 
-    public Optional<MockEmployee> findById(@NonNull UUID uuid) {
+    public Optional<MockEmployee> findById(@NonNull String uuid) {
         return mockEmployees.stream()
                 .filter(mockEmployee -> Objects.nonNull(mockEmployee.getId())
                         && mockEmployee.getId().equals(uuid))
@@ -74,7 +74,7 @@ public class MockEmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public String deleteById(@NonNull UUID uuid) {
+    public String deleteById(@NonNull String uuid) {
         Optional<MockEmployee> mockEmployee = findById(uuid);
         if (mockEmployee.isPresent()) {
             mockEmployees.remove(mockEmployee.get());

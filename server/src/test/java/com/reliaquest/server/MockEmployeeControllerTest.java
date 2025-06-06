@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 import com.reliaquest.server.controller.MockEmployeeController;
 import com.reliaquest.server.model.CreateMockEmployeeInput;
 import com.reliaquest.server.model.DeleteMockEmployeeInput;
@@ -32,7 +33,7 @@ public class MockEmployeeControllerTest {
 
     private MockEmployee mockEmployee;
 
-    private UUID employeeId;
+    private String employeeId;
 
     private CreateMockEmployeeInput input;
 
@@ -42,7 +43,7 @@ public class MockEmployeeControllerTest {
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
         mockEmployee = MockEmployee.from("reliaQuest@gmail.com", createMockEmployeeInput());
-        employeeId = UUID.randomUUID();
+        employeeId = String.valueOf(UUID.randomUUID());
         input = createMockEmployeeInput();
         deleteInput = new DeleteMockEmployeeInput();
     }
@@ -132,16 +133,16 @@ public class MockEmployeeControllerTest {
         verify(mockEmployeeService, times(1)).getTopTenHighestEarningEmployeeNameList();
     }
 
-    @Test
-    public void testDeleteEmployeeById() throws Exception {
-        when(mockEmployeeService.deleteById(employeeId)).thenReturn("name1");
+        @Test
+        public void testDeleteEmployeeById() throws Exception {
+            when(mockEmployeeService.deleteById(employeeId)).thenReturn("name1");
 
-        mockMvc.perform(delete("/api/v1/employee/{id}", employeeId).contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("name1"));
+            mockMvc.perform(delete("/api/v1/employee/{id}", employeeId).contentType("application/json"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string("name1"));
 
-        verify(mockEmployeeService, times(1)).deleteById(employeeId);
-    }
+            verify(mockEmployeeService, times(1)).deleteById(employeeId);
+        }
 
     public CreateMockEmployeeInput createMockEmployeeInput() {
         CreateMockEmployeeInput createMockEmployeeInput = new CreateMockEmployeeInput();
